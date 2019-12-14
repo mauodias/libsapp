@@ -1,4 +1,5 @@
 import os
+import time
 from selenium import webdriver
 
 CHROMEDRIVER_PATH = ''
@@ -24,6 +25,7 @@ class WhatsApp:
             self.wd = webdriver.Chrome(executable_path=CHROMEDRIVER_PATH,
                                   chrome_options=chrome_options)
         self.wd.get(self._url)
+        time.sleep(3)
 
     @property
     def chat_name(self):
@@ -36,11 +38,13 @@ class WhatsApp:
         self._chat_name = name
 
     def get_qr_code(self):
+        package_path = os.path.dirname(os.path.abspath(__file__))
+        checkmark = open(os.path.join(package_path, 'checkmark')).read()
         try:
             qr = self.wd.find_element_by_xpath("//img[contains(@alt, 'Scan me!')]")
             src = qr.get_attribute('src')
         except:
-            src = open('checkmark').read()
+            src = checkmark
         return src
 
     def get_messages(self, count=5):
