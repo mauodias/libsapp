@@ -40,7 +40,7 @@ class WhatsApp:
             qr = self.wd.find_element_by_xpath("//img[contains(@alt, 'Scan me!')]")
             src = qr.get_attribute('src')
         except:
-            src = 'checkmark.png'
+            src = open('checkmark').read()
         return src
 
     def get_messages(self, count=5):
